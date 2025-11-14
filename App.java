@@ -8,11 +8,9 @@ public class App {
         ArrayList<DonHang> Donhang =new ArrayList<>();
         ArrayList<QuanLyDonHang> ds = new ArrayList<>();
 
-        // ===== TẠO DỮ LIỆU KHÁCH HÀNG & SHIPPER =====
-        KhachHang gui1 = new KhachHang("KH01", "Nguyễn Văn A", "0909123123", "123 Nguyễn Huệ", 4);
         
+        KhachHang gui1 = new KhachHang("KH01", "Nguyễn Văn A", "0909123123", "123 Nguyễn Huệ", 4);
         KhachHang nhan1 = new KhachHang("KH02", "Trần Thị B", "0909888777", "456 Lê Lợi", 6);
-       
         Shipper sp1 = new Shipper("SP01", "Lê Văn C", "0909555666");
         DonHang don1 = new DonHang("DH01", "Áo sơ mi", 250000, 20000, "Đang giao");
         
@@ -22,18 +20,18 @@ public class App {
         Shipper sp2 = new Shipper("SP02", "Trần Văn F", "0909777666");
         DonHang don2 = new DonHang("DH02", "Giày thể thao", 500000, 30000, "Hoàn thành");
 
-        // 🆕 Đơn hàng thứ 3
+        
         KhachHang gui3 = new KhachHang("KH05", "Ngô Văn G", "0911777888", "222 Điện Biên Phủ", 8);
         KhachHang nhan3 = new KhachHang("KH06", "Phạm Thị H", "0911333444", "333 Võ Thị Sáu", 5);
         DonHang don3 = new DonHang("DH03", "Điện thoại Samsung", 12000000, 50000, "Đang giao");
 
-        // 🆕 Đơn hàng thứ 4
+       
         KhachHang gui4 = new KhachHang("KH07", "Lưu Minh I", "0911444555", "99 Nguyễn Văn Linh", 2);
         KhachHang nhan4 = new KhachHang("KH08", "Trịnh Thị K", "0911666777", "555 Phan Đăng Lưu", 10);
         Shipper sp3 = new Shipper("SP03", "Đỗ Quốc L", "0909333222");
         DonHang don4 = new DonHang("DH04", "Laptop Dell", 15000000, 60000, "Hoàn thành");
 
-        // 🆕 Đơn hàng thứ 5
+        
         KhachHang gui5 = new KhachHang("KH09", "Huỳnh Anh M", "0911999000", "88 Pasteur", 1);
         KhachHang nhan5 = new KhachHang("KH10", "Bùi Văn N", "0911555666", "222 Nguyễn Thị Minh Khai", 12);
         Shipper sp4 = new Shipper("SP04", "Trần Văn K", "0909777666");
@@ -56,7 +54,7 @@ public class App {
 
         
 
-        // ===== TẠO DANH SÁCH ĐƠN HÀNG =====
+        // DANH SÁCH ĐƠN HÀNG 
 
         QuanLyDonHang q1 = new QuanLyDonHang();
         q1.ThemDonHang(gui1, nhan1, sp1, don1,"dang xu ly");
@@ -118,7 +116,7 @@ public class App {
         System.out.println("Nhap Phi Ship:"); 
         float PhiShip = sc.nextFloat();
 
-        sc.nextLine(); // Fix trôi dòng
+        sc.nextLine();
 
         System.out.println("Nhap Trang Thai:"); 
         String TrangThai = sc.nextLine();
@@ -127,11 +125,9 @@ public class App {
         Donhang.add(dh);       
 
         break;
-        case 10:
-
-        break;
+       
         case 21:
-       sc.nextLine(); // Fix trôi dòng
+       sc.nextLine(); 
 
     System.out.println(" Chon nguoi gui");
     for (int i = 0; i < KH.size(); i++) {
@@ -151,15 +147,14 @@ public class App {
     }
     int shipIndex = sc.nextInt();
 
-    System.out.println("=== Chon don hang ===");
+    System.out.println("   Chon don hang:");
     for (int i = 0; i < Donhang.size(); i++) {
         System.out.println(i + "." + Donhang.get(i).getTenHang());
     }
     int donIndex = sc.nextInt();
 
-    sc.nextLine(); // Fix trôi dòng
+    sc.nextLine();
 
-    System.out.println("Nhap trang thai xu ly:");
     QuanLyDonHang q = new QuanLyDonHang();
     q.ThemDonHang(KH.get(guiIndex),KH.get(nhanIndex),Shipper.get(shipIndex),Donhang.get(donIndex),"Da Them");
    
@@ -170,22 +165,33 @@ public class App {
         break;
         case 22:
         System.out.println("Nhap nguoi gui");
-        int IDnhan ;
-        for (int i = 0; i < KH.size(); i++) {
-            System.out.println( i+"."+ KH.get(i));  
-        }
-        IDnhan=sc.nextInt();
-        System.out.println("Nhap nguoi nhan");
         int IDgui ;
         for (int i = 0; i < KH.size(); i++) {
-            System.out.println( i+"."+ KH.get(i));  
+            System.out.println( i+"."+ KH.get(i).getID());  
         }
         IDgui=sc.nextInt();
+        System.out.println(" Nhap nguoi nhan");
+        int IDnhan ;
+        for (int i = 0; i < KH.size(); i++) {
+            System.out.println( i+"."+ KH.get(i).getID());  
+        }
+        IDnhan=sc.nextInt();
         QuanLyDonHang ql=new QuanLyDonHang();
-        ql.Phi(KH.get(IDgui),KH.get(IDnhan));
+        System.out.println(ql.Phi(KH.get(IDgui),KH.get(IDnhan)));
         break;
-        case 7:
+        case 32:
 
+        break;
+        case 33:
+        ThongKe qldh=new ThongKe(ds);
+        qldh.inThongKe();
+
+        break;
+        case 10:
+        System.out.println("Cac don hang can giao");
+        for (int i = 0; i < ds.size(); i++) {
+            System.out.println("Don so"+ (i+1) + "la:"+ds.get(i));
+        }
         break;
         
       
