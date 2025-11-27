@@ -4,14 +4,12 @@ public class Nguoi {
     private String Ten;
     private String SDT;
 
-    // ===== Constructor =====
     public Nguoi(String ID, String Ten, String SDT) {
         this.ID = ID;
         this.Ten = Ten;
         this.SDT = SDT;
     }
 
-    // ===== Getter & Setter =====
     public String getID() {
         return ID;
     }
@@ -43,5 +41,6 @@ public class Nguoi {
 }
 
 }
+
 
 
