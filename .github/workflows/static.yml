@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <title>Giao diện điều khiển đơn giản - Quản lý đơn hàng</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{font-family: Arial, Helvetica, sans-serif; padding:16px; background:#f6f8fa;}
+    h1{margin-top:0}
+    .container{display:flex;gap:16px;align-items:flex-start;}
+    .card{background:#fff;padding:12px;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.08);width:320px}
+    label{display:block;margin-top:8px}
+    input, select{width:100%;padding:6px;margin-top:4px;border-radius:4px;border:1px solid #ccc}
+    button{margin-top:10px;padding:8px 12px;border-radius:6px;border:0;background:#2563eb;color:#fff;cursor:pointer}
+    small{color:#666}
+    pre{background:#111;color:#0f0;padding:8px;border-radius:6px;overflow:auto}
+    .list{max-height:300px;overflow:auto;margin-top:8px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:6px;border-bottom:1px solid #eee;text-align:left;font-size:13px}
+  </style>
+</head>
+<body>
+  <h1>Giao diện quản lý đơn hàng </h1>
+  <p>Phiên bản đơn giản chạy hoàn toàn trên trình duyệt — thêm Khách hàng / Shipper / Đơn / Tạo bản ghi quản lý đơn & thống kê.</p>
+
+  <div class="container">
+    <!-- Form thêm khách -->
+    <div class="card">
+      <h3>Thêm / DS Khách hàng</h3>
+      <label>ID <input id="khId" placeholder="KH01"></label>
+      <label>Tên <input id="khTen" placeholder="Nguyễn Văn A"></label>
+      <label>SĐT <input id="khSdt" placeholder="0909123..."></label>
+      <label>Địa chỉ <input id="khDiaChi" placeholder="123 Nguyễn Huệ"></label>
+      <label>Khoảng cách (km) <input id="khKhoangCach" type="number" value="1"></label>
+      <button id="addKh">Thêm Khách hàng</button>
+
+      <div class="list">
+        <h4>Danh sách KH</h4>
+        <table id="tblKH"><thead><tr><th>ID</th><th>Tên</th><th>Km</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- Form thêm shipper -->
+    <div class="card">
+      <h3>Thêm / DS Shipper</h3>
+      <label>ID <input id="spId" placeholder="SP01"></label>
+      <label>Tên <input id="spTen" placeholder="Lê Văn C"></label>
+      <label>SĐT <input id="spSdt" placeholder="0909..."></label>
+      <button id="addSp">Thêm Shipper</button>
+
+      <div class="list">
+        <h4>Danh sách Shipper</h4>
+        <table id="tblSP"><thead><tr><th>ID</th><th>Tên</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <!-- Form thêm đơn -->
+    <div class="card">
+      <h3>Thêm / DS Đơn hàng</h3>
+      <label>Mã đơn <input id="dhMa" placeholder="DH01"></label>
+      <label>Tên hàng <input id="dhTenHang" placeholder="Áo sơ mi"></label>
+      <label>Giá trị (VND) <input id="dhGiaTri" type="number" value="100000"></label>
+      <label>Phí ship (VND) <input id="dhPhi" type="number" value="20000"></label>
+      <label>Trạng thái <input id="dhTrangThai" placeholder="Đang giao"></label>
+      <button id="addDh">Thêm Đơn</button>
+
+      <div class="list">
+        <h4>Danh sách Đơn</h4>
+        <table id="tblDH"><thead><tr><th>Mã</th><th>Tên hàng</th><th>Tổng</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div style="display:flex;gap:16px">
+    <div class="card" style="flex:1">
+      <h3>Tạo QuanLyDonHang (Gán KH gửi, KH nhận, Shipper, Đơn)</h3>
+      <label>Chọn người gửi <select id="selGui"></select></label>
+      <label>Chọn người nhận <select id="selNhan"></select></label>
+      <label>Chọn shipper <select id="selSp"></select></label>
+      <label>Chọn đơn <select id="selDon"></select></label>
+      <button id="createQL">Tạo Đơn Quản lý</button>
+
+      <div class="list">
+        <h4>Danh sách Đơn cần giao</h4>
+        <table id="tblDS"><thead><tr><th>#</th><th>MãĐơn</th><th>Shipper</th><th>Tổng tiền</th></tr></thead><tbody></tbody></table>
+      </div>
+    </div>
+
+    <div class="card" style="width:360px">
+      <h3>Tính phí / Thống kê</h3>
+      <label>Chọn gửi <select id="feeGui"></select></label>
+      <label>Chọn nhận <select id="feeNhan"></select></label>
+      <button id="calcFee">Tính phí giao (3000đ/km)</button>
+      <div id="feeResult" style="margin-top:8px"></div>
+
+      <hr>
+      <h4>Báo cáo nhanh</h4>
+      <button id="runReport">In Thống kê</button>
+      <pre id="report" style="height:160px"></pre>
+    </div>
+  </div>
+
+  <script>
+    // Mô phỏng các class Java bằng object JS
+    const customers = [];
+    const shippers = [];
+    const orders = []; // DonHang
+    const qldh = [];   // QuanLyDonHang
+
+    // Khởi tạo dữ liệu mẫu giống ví dụ của bạn
+    (function seed(){
+      customers.push({id:'KH01',ten:'Nguyễn Văn A',sdt:'0909123123',diachi:'123 Nguyễn Huệ',km:4});
+      customers.push({id:'KH02',ten:'Trần Thị B',sdt:'0909888777',diachi:'456 Lê Lợi',km:6});
+      customers.push({id:'KH03',ten:'Phạm Minh D',sdt:'0909111222',diachi:'789 Hai Bà Trưng',km:3});
+      customers.push({id:'KH04',ten:'Lý Thị E',sdt:'0911222333',diachi:'111 Nguyễn Trãi',km:7});
+      customers.push({id:'KH05',ten:'Ngô Văn G',sdt:'0911777888',diachi:'222 Điện Biên Phủ',km:8});
+      customers.push({id:'KH06',ten:'Phạm Thị H',sdt:'0911333444',diachi:'333 Võ Thị Sáu',km:5});
+
+      shippers.push({id:'SP01',ten:'Lê Văn C',sdt:'0909555666'});
+      shippers.push({id:'SP02',ten:'Trần Văn F',sdt:'0909777666'});
+      shippers.push({id:'SP03',ten:'Đỗ Quốc L',sdt:'0909333222'});
+      shippers.push({id:'SP04',ten:'Trần Văn K',sdt:'0909777666'});
+
+      orders.push({ma:'DH01',ten:'Áo sơ mi',gia:250000,phi:20000,tt:'Đang giao'});
+      orders.push({ma:'DH02',ten:'Giày thể thao',gia:500000,phi:30000,tt:'Hoàn thành'});
+      orders.push({ma:'DH03',ten:'Điện thoại Samsung',gia:12000000,phi:50000,tt:'Đang giao'});
+      orders.push({ma:'DH04',ten:'Laptop Dell',gia:15000000,phi:60000,tt:'Hoàn thành'});
+      orders.push({ma:'DH05',ten:'Bàn phím cơ',gia:900000,phi:25000,tt:'Đã hủy'});
+
+      // Create some sample QuanLyDonHang
+      addQuanLy(customers[0], customers[1], shippers[0], orders[0], 'dang xu ly');
+      addQuanLy(customers[2], customers[3], shippers[1], orders[1], 'dang xu ly');
+      addQuanLy(customers[4], customers[5], shippers[0], orders[2], 'dang xu ly');
+
+      refreshAll();
+    })();
+
+    // UI helpers
+    function $(id){return document.getElementById(id)}
+
+    // Add functions
+    $('addKh').onclick = ()=>{
+      const id=$('khId').value.trim();
+      if(!id){alert('Nhập ID'); return;}
+      customers.push({
+        id, ten:$('khTen').value||id, sdt:$('khSdt').value||'', diachi:$('khDiaChi').value||'', km: parseInt($('khKhoangCach').value||0)
+      });
+      clearKHForm(); refreshAll();
+    }
+    $('addSp').onclick = ()=>{
+      const id=$('spId').value.trim();
+      if(!id){alert('Nhập ID'); return;}
+      shippers.push({id,ten:$('spTen').value||id,sdt:$('spSdt').value||''});
+      clearSPForm(); refreshAll();
+    }
+    $('addDh').onclick = ()=>{
+      const ma=$('dhMa').value.trim();
+      if(!ma){alert('Nhập mã đơn'); return;}
+      orders.push({ma,ten:$('dhTenHang').value||ma,gia:parseFloat($('dhGiaTri').value||0),phi:parseFloat($('dhPhi').value||0),tt:$('dhTrangThai').value||''});
+      clearDHForm(); refreshAll();
+    }
+
+    function clearKHForm(){ $('khId').value='';$('khTen').value='';$('khSdt').value='';$('khDiaChi').value='';$('khKhoangCach').value=1;}
+    function clearSPForm(){ $('spId').value='';$('spTen').value='';$('spSdt').value='';}
+    function clearDHForm(){ $('dhMa').value='';$('dhTenHang').value='';$('dhGiaTri').value='';$('dhPhi').value='';$('dhTrangThai').value='';}
+
+    // Tạo QuanLyDonHang
+    function addQuanLy(gui, nhan, shipper, order, trangthai){
+      const phi = (gui.km + nhan.km) * 3000;
+      const tong = (order.gia + order.phi) + phi; // giống code Java của bạn
+      const doanhthu = tong * 8 / 100;
+      qldh.push({
+        maDon: order.ma,
+        idGui: gui.id,
+        idNhan: nhan.id,
+        idShipper: shipper.id,
+        tongTien: tong,
+        doanhThu: doanhthu,
+        trangThai: trangthai,
+        phiGiao: phi
+      });
+    }
+
+    $('createQL').onclick = ()=>{
+      const guiIndex = $('selGui').value;
+      const nhanIndex = $('selNhan').value;
+      const spIndex = $('selSp').value;
+      const donIndex = $('selDon').value;
+      if([guiIndex,nhanIndex,spIndex,donIndex].some(v=>v==='')){ alert('Chọn đầy đủ'); return;}
+      addQuanLy(customers[guiIndex], customers[nhanIndex], shippers[spIndex], orders[donIndex], 'Da Them');
+      refreshAll();
+      alert('Tạo bản ghi quản lý đơn thành công');
+    }
+
+    // Tính phí tạm riêng
+    $('calcFee').onclick = ()=>{
+      const g = $('feeGui').value; const n = $('feeNhan').value;
+      if(g===''||n===''){ alert('Chọn gửi và nhận'); return;}
+      const fee = (customers[g].km + customers[n].km) * 3000;
+      $('feeResult').innerText = `Phí vận chuyển = ${fee.toLocaleString()} VND`;
+    }
+
+    // Thống kê
+    $('runReport').onclick = ()=>{
+      const totalRevenue = qldh.reduce((s,d)=>s + d.doanhThu, 0);
+      const totalOrders = qldh.length;
+      const khSet = new Set();
+      qldh.forEach(d=>{ khSet.add(d.idGui); khSet.add(d.idNhan); });
+
+      // doanh thu theo shipper
+      const map = {};
+      qldh.forEach(d=>{
+        map[d.idShipper] = (map[d.idShipper]||0) + d.doanhThu;
+      });
+
+      let txt = '';
+      txt += `Tổng doanh thu hệ thống: ${Math.round(totalRevenue).toLocaleString()} VND\n`;
+      txt += `Tổng số đơn: ${totalOrders}\n`;
+      txt += `Số khách hàng đã phục vụ: ${khSet.size}\n\n`;
+      txt += `Doanh thu theo shipper:\n`;
+      for(const id in map){ txt += ` - ${id}: ${Math.round(map[id]).toLocaleString()} VND\n`; }
+      $('report').innerText = txt;
+    }
+
+    // Hiển thị / render
+    function refreshAll(){
+      // KH table
+      const tbKH = $('tblKH').querySelector('tbody'); tbKH.innerHTML='';
+      customers.forEach((c,i)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${c.id}</td><td>${c.ten}</td><td>${c.km}</td>`;
+        tbKH.appendChild(tr);
+      });
+
+      // SP table
+      const tbSP = $('tblSP').querySelector('tbody'); tbSP.innerHTML='';
+      shippers.forEach((s,i)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${s.id}</td><td>${s.ten}</td>`;
+        tbSP.appendChild(tr);
+      });
+
+      // DH table
+      const tbDH = $('tblDH').querySelector('tbody'); tbDH.innerHTML='';
+      orders.forEach((d,i)=>{
+        const tr = document.createElement('tr');
+        const tong = (d.gia + d.phi).toLocaleString();
+        tr.innerHTML = `<td>${d.ma}</td><td>${d.ten}</td><td>${tong} VND</td>`;
+        tbDH.appendChild(tr);
+      });
+
+      // selects for creating QL
+      populateSelect('selGui', customers);
+      populateSelect('selNhan', customers);
+      populateSelect('selSp', shippers);
+      populateSelect('selDon', orders);
+
+      populateSelect('feeGui', customers);
+      populateSelect('feeNhan', customers);
+
+      // DS QuanLyDonHang
+      const tbDS = $('tblDS').querySelector('tbody'); tbDS.innerHTML='';
+      qldh.forEach((q,i)=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${i+1}</td><td>${q.maDon}</td><td>${q.idShipper}</td><td>${Math.round(q.tongTien).toLocaleString()} VND</td>`;
+        tbDS.appendChild(tr);
+      });
+    }
+
+    function populateSelect(id, arr){
+      const sel = $(id);
+      if(!sel) return;
+      const old = sel.value;
+      sel.innerHTML = '<option value="">-- Chọn --</option>';
+      arr.forEach((it, idx)=> {
+        const opt = document.createElement('option');
+        opt.value = idx;
+        // hiển thị ID và tên
+        opt.text = (it.id || it.ma || idx) + ' - ' + (it.ten || it.ten || '');
+        sel.appendChild(opt);
+      });
+      sel.value = old || '';
+    }
+
+    // Nếu muốn gửi dữ liệu lên backend Java, bạn có thể dùng fetch() - ví dụ:
+    // fetch('/api/qldh', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(qldh)})
+    // Nhưng server Java phải có endpoint nhận POST /api/qldh và xử lý JSON.
+
+    // Refresh lần đầu
+    refreshAll();
+
+    // Export/Import (nếu muốn) -> ví dụ: xuất dữ liệu hiện tại ra JSON trong console:
+    window.exportData = ()=> {
+      return {customers, shippers, orders, qldh};
+    }
+
+  </script>
+</body>
+</html>
