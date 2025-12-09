@@ -1,41 +1,41 @@
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class QuanLyShipper {
-
+public class App {
     public static void main(String[] args) {
- 
         ArrayList<KhachHang> KH =new ArrayList<>();
         ArrayList<Shipper> Shipper =new ArrayList<>();
         ArrayList<DonHang> Donhang =new ArrayList<>();
         ArrayList<QuanLyDonHang> ds = new ArrayList<>();
 
         
-        KhachHang gui1 = new KhachHang("KH01", "Nguyen Van A", "0909123123", "123 Nguyen Hue", 4);
-        KhachHang nhan1 = new KhachHang("KH02", "Tran Thi B", "0909888777", "456 Le Loi", 6);
-        Shipper sp1 = new Shipper("SP01", "Le Van C", "0909555666");
-        DonHang don1 = new DonHang("DH01", "Ao so mi", 250000, 20000, "Dang giao");
+        KhachHang gui1 = new KhachHang("KH01", "Nguyễn Văn A", "0909123123", "123 Nguyễn Huệ", 4);
+        KhachHang nhan1 = new KhachHang("KH02", "Trần Thị B", "0909888777", "456 Lê Lợi", 6);
+        Shipper sp1 = new Shipper("SP01", "Lê Văn C", "0909555666");
+        DonHang don1 = new DonHang("DH01", "Áo sơ mi", 250000, 20000, "Đang giao");
+        
 
-        KhachHang gui2 = new KhachHang("KH03", "Pham Minh D", "0909111222", "789 Hai Ba Trung", 3);
-        KhachHang nhan2 = new KhachHang("KH04", "Ly Thi E", "0911222333", "111 Nguyen Trai", 7);
-        Shipper sp2 = new Shipper("SP02", "Tran Van F", "0909777666");
-        DonHang don2 = new DonHang("DH02", "Giay the thao", 500000, 30000, "Hoan thanh");
+        KhachHang gui2 = new KhachHang("KH03", "Phạm Minh D", "0909111222", "789 Hai Bà Trưng", 3);
+        KhachHang nhan2 = new KhachHang("KH04", "Lý Thị E", "0911222333", "111 Nguyễn Trãi", 7);
+        Shipper sp2 = new Shipper("SP02", "Trần Văn F", "0909777666");
+        DonHang don2 = new DonHang("DH02", "Giày thể thao", 500000, 30000, "Hoàn thành");
 
-        KhachHang gui3 = new KhachHang("KH05", "Ngo Van G", "0911777888", "222 Dien Bien Phu", 8);
-        KhachHang nhan3 = new KhachHang("KH06", "Pham Thi H", "0911333444", "333 Vo Thi Sau", 5);
-        DonHang don3 = new DonHang("DH03", "Dien thoai Samsung", 12000000, 50000, "Dang giao");
+        
+        KhachHang gui3 = new KhachHang("KH05", "Ngô Văn G", "0911777888", "222 Điện Biên Phủ", 8);
+        KhachHang nhan3 = new KhachHang("KH06", "Phạm Thị H", "0911333444", "333 Võ Thị Sáu", 5);
+        DonHang don3 = new DonHang("DH03", "Điện thoại Samsung", 12000000, 50000, "Đang giao");
 
-        KhachHang gui4 = new KhachHang("KH07", "Luu Minh I", "0911444555", "99 Nguyen Van Linh", 2);
-        KhachHang nhan4 = new KhachHang("KH08", "Trinh Thi K", "0911666777", "555 Phan Dang Luu", 10);
-        Shipper sp3 = new Shipper("SP03", "Do Quoc L", "0909333222");
-        DonHang don4 = new DonHang("DH04", "Laptop Dell", 15000000, 60000, "Hoan thanh");
+       
+        KhachHang gui4 = new KhachHang("KH07", "Lưu Minh I", "0911444555", "99 Nguyễn Văn Linh", 2);
+        KhachHang nhan4 = new KhachHang("KH08", "Trịnh Thị K", "0911666777", "555 Phan Đăng Lưu", 10);
+        Shipper sp3 = new Shipper("SP03", "Đỗ Quốc L", "0909333222");
+        DonHang don4 = new DonHang("DH04", "Laptop Dell", 15000000, 60000, "Hoàn thành");
 
-        KhachHang gui5 = new KhachHang("KH09", "Huynh Anh M", "0911999000", "88 Pasteur", 1);
-        KhachHang nhan5 = new KhachHang("KH10", "Bui Van N", "0911555666", "222 Nguyen Thi Minh Khai", 12);
-        Shipper sp4 = new Shipper("SP04", "Tran Van K", "0909777666");
-        DonHang don5 = new DonHang("DH05", "Ban phim co", 900000, 25000, "Da huy");
-
+        
+        KhachHang gui5 = new KhachHang("KH09", "Huỳnh Anh M", "0911999000", "88 Pasteur", 1);
+        KhachHang nhan5 = new KhachHang("KH10", "Bùi Văn N", "0911555666", "222 Nguyễn Thị Minh Khai", 12);
+        Shipper sp4 = new Shipper("SP04", "Trần Văn K", "0909777666");
+        DonHang don5 = new DonHang("DH05", "Bàn phím cơ", 900000, 25000, "Đã hủy");
         KH.add(nhan2);
         KH.add(gui2);
         KH.add(gui1);
@@ -51,11 +51,6 @@ public class QuanLyShipper {
         Donhang.add(don3);
         Donhang.add(don4);
         Donhang.add(don5);
-
-        
-
-        
-
         QuanLyDonHang q1 = new QuanLyDonHang();
         q1.ThemDonHang(gui1, nhan1, sp1, don1,"dang xu ly");
         ds.add(q1);
@@ -77,11 +72,11 @@ public class QuanLyShipper {
         ds.add(q5);
 
         int choice =-1;
-        Scanner sc =new Scanner(System.in);
+        Scanner sc =new Scanner(System.in);sc.nextLine();
         while(choice !=0){
             System.out.println("===================MenU================");
             System.out.println("10.Xem don hang can giao\n20.Tao don hang\n21.Them don hang can giao\n22.Tinh phi giao hang\n30.Them khach hang\n31.Them shipper\n32.Liet Ke shipper \n33.Bao cao thong ke\n0.Thoat CT");
-            choice = sc.nextInt();
+            choice = sc.nextInt();sc.nextLine();
         switch (choice){
         case 0:
             choice=0;
@@ -91,7 +86,7 @@ public class QuanLyShipper {
             System.out.println("Nhap Ten"); String TenKH=sc.nextLine();
             System.out.println("Nhap SDT"); String SDTKH=sc.nextLine();
             System.out.println("Nhap DiaChi"); String DiaChiKH=sc.nextLine();
-            System.out.println("KhoangCach"); int KhoangCachKH=sc.nextInt();
+            System.out.println("KhoangCach"); int KhoangCachKH=sc.nextInt();sc.nextLine();
             KhachHang kh=new KhachHang(IDKH,TenKH,SDTKH,DiaChiKH,KhoangCachKH);
             KH.add(kh);
             
@@ -111,12 +106,12 @@ public class QuanLyShipper {
         String TenHang = sc.nextLine();
 
         System.out.println("Nhap Gia Tri:"); 
-        float GiaTri = sc.nextFloat();
+        float GiaTri = sc.nextFloat();sc.nextLine();
 
         System.out.println("Nhap Phi Ship:"); 
-        float PhiShip = sc.nextFloat();
+        float PhiShip = sc.nextFloat();sc.nextLine();
 
-        sc.nextLine();
+        
 
         System.out.println("Nhap Trang Thai:"); 
         String TrangThai = sc.nextLine();
@@ -133,31 +128,32 @@ public class QuanLyShipper {
     for (int i = 0; i < KH.size(); i++) {
         System.out.println(i + "." + KH.get(i).getID());
     }
-    int guiIndex = sc.nextInt();
+    int guiIndex = sc.nextInt();sc.nextLine();
 
     System.out.println("Chon nguoi nhan ");
     for (int i = 0; i < KH.size(); i++) {
         System.out.println(i + "." + KH.get(i).getID());
     }
-    int nhanIndex = sc.nextInt();
+    int nhanIndex = sc.nextInt();sc.nextLine();
 
     System.out.println(" Chon shipper ");
     for (int i = 0; i < Shipper.size(); i++) {
         System.out.println(i + "." + Shipper.get(i).getID());
     }
-    int shipIndex = sc.nextInt();
+    int shipIndex = sc.nextInt();sc.nextLine();
 
     System.out.println("   Chon don hang:");
     for (int i = 0; i < Donhang.size(); i++) {
         System.out.println(i + "." + Donhang.get(i).getTenHang());
     }
-    int donIndex = sc.nextInt();
+    int donIndex = sc.nextInt();sc.nextLine();
 
     sc.nextLine();
 
     QuanLyDonHang q = new QuanLyDonHang();
     q.ThemDonHang(KH.get(guiIndex),KH.get(nhanIndex),Shipper.get(shipIndex),Donhang.get(donIndex),"Da Them");
-    
+   
+
     ds.add(q);
     System.out.println("Them don hang can giao thanh cong");
 
@@ -168,20 +164,20 @@ public class QuanLyShipper {
         for (int i = 0; i < KH.size(); i++) {
             System.out.println( i+"."+ KH.get(i).getID());  
         }
-        IDgui=sc.nextInt();
+        IDgui=sc.nextInt();sc.nextLine();
         System.out.println(" Nhap nguoi nhan");
         int IDnhan ;
         for (int i = 0; i < KH.size(); i++) {
             System.out.println( i+"."+ KH.get(i).getID());  
         }
-        IDnhan=sc.nextInt();
+        IDnhan=sc.nextInt();sc.nextLine();
         QuanLyDonHang ql=new QuanLyDonHang();
         System.out.println(ql.Phi(KH.get(IDgui),KH.get(IDnhan)));
         break;
         case 32:
-            System.out.println("Cac Shipper: ");
+            System.out.println("Liet Ke shipper");
             for (int i = 0; i < Shipper.size(); i++) {
-                    System.out.println((i+1)+" "+Shipper.get(i).getTen());
+                    System.out.println((i+1)+Shipper.get(i).getTen());
             }
 
         break;
@@ -202,5 +198,4 @@ public class QuanLyShipper {
         }
     }
 }
-    }
-
+}
