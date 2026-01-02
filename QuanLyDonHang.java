@@ -1,3 +1,7 @@
+
+package com.mycompany.quanlyshipper;
+
+
 public class QuanLyDonHang {
     private String MaDon;
     private String IDKhachHanggui;
@@ -5,12 +9,21 @@ public class QuanLyDonHang {
     private String IDShipper;
     private float TongTien;
     private float DoanhThu;
+    private String TrangThai;
+    private  float PhiGiaoHang;
 
-    void ThemDonHang(KhachHang khachHangGui, KhachHang khachHangNhan, Shipper shipper, DonHang donHang) {
+    public float Phi(KhachHang khachHangGui, KhachHang khachHangNhan){
+        this.PhiGiaoHang=(khachHangGui.getKhoangCach()+khachHangNhan.getKhoangCach())*3000;
+        return PhiGiaoHang;
+    }
+
+
+    void ThemDonHang(KhachHang khachHangGui, KhachHang khachHangNhan, Shipper shipper, DonHang donHang,String TrangThai){
         this.MaDon = donHang.getMaDon();
         this.IDKhachHanggui = khachHangGui.getID();
         this.IDKhachHangnhan = khachHangNhan.getID();
         this.IDShipper = shipper.getID();
+        this.TrangThai=TrangThai;
         this.TongTien = donHang.TongTien()+(khachHangGui.getKhoangCach()+khachHangNhan.getKhoangCach())*3000;
         this.DoanhThu=this.TongTien*8/100;}
     public String getMaDon() {
@@ -36,5 +49,9 @@ public float getTongTien() {
 public float getDoanhThu() {
     return DoanhThu;
 }
+public String getTrangThai() {
+    return TrangThai;
+}
+
 
 }
