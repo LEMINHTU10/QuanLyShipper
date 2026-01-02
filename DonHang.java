@@ -1,3 +1,7 @@
+
+package com.mycompany.quanlyshipper;
+
+
 public class DonHang {
     private String MaDon;
     private String TenHang;
@@ -5,7 +9,7 @@ public class DonHang {
     private float PhiShip;
     private String TrangThai;
 
-    // Constructor
+    
     public DonHang(String MaDon, String TenHang, float GiaTri, float PhiShip, String TrangThai) {
         this.MaDon = MaDon;
         this.TenHang = TenHang;
@@ -14,7 +18,7 @@ public class DonHang {
         this.TrangThai = TrangThai;
     }
 
-    // Getter & Setter
+    
     public String getMaDon() {
         return MaDon;
     }
