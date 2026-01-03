@@ -99,4 +99,40 @@ public String thongKeGUI() {
 }
 
 }
+public String thongKeGUI() {
+    StringBuilder sb = new StringBuilder();
+
+    sb.append("----- BÁO CÁO THỐNG KÊ -----\n");
+    sb.append("Tổng doanh thu hệ thống: ")
+      .append(tongDoanhThu()).append("\n");
+
+    sb.append("Tổng số đơn hàng: ")
+      .append(soDonHang()).append("\n");
+
+    sb.append("Số khách hàng đã phục vụ: ")
+      .append(soKhachHangPhucVu()).append("\n\n");
+
+    sb.append("DOANH THU THEO SHIPPER:\n");
+
+    HashMap<String, Float> map = new HashMap<>();
+    for (QuanLyDonHang dh : danhSachDonHang) {
+        map.put(
+            dh.getIDShipper(),
+            map.getOrDefault(dh.getIDShipper(), 0f) + dh.getDoanhThu()
+        );
+    }
+
+    for (String id : map.keySet()) {
+        sb.append("Shipper ")
+          .append(id)
+          .append(" : ")
+          .append(map.get(id))
+          .append(" VND\n");
+    }
+
+    sb.append("\n== HẾT ==");
+    return sb.toString();
+}
+
+
 
